@@ -1,0 +1,304 @@
+html, body { height: 100%; margin: 0; display: flex; flex-direction: column; overflow: hidden; font-family: sans-serif; }
+.main-content { flex-grow: 1; display: flex; overflow: hidden; }
+
+body::-webkit-scrollbar {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main, .content-wrapper {
+    flex: 1 0 auto; /* สั่งให้ส่วนนี้ยืดตัวเพื่อกินพื้นที่ที่เหลือทั้งหมด */
+}
+
+/* 3. ปรับแต่ง Footer ให้เกาะขอบล่าง */
+footer {
+    flex-shrink: 0; /* ห้าม Footer หดตัว */
+}
+
+/* Sidebar */
+.col-side { width: 250px; background-color: #f1f3f5; overflow-y: auto; border-right: 1px solid #dee2e6; flex-shrink: 0; }
+.staff-pool { min-height: 100px; border: 2px dashed #ced4da; border-radius: 10px; padding: 10px; list-style: none; background: rgba(0,0,0,0.02); }
+
+/* Table Section */
+.col-center { flex: 1; overflow-y: auto; background-color: #fff; }
+.rounded-table-container { border-radius: 10px; overflow: hidden; border: 1px solid #212529; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+table { table-layout: fixed; width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+td { height: 33px;font-size: 0.8rem; vertical-align: middle; position: relative; padding: 0 !important; }
+
+/* Status Colors */
+.has-data { background-color: #f0fdf4 !important; color: #198754 !important; font-weight: bold; cursor: grab; }
+.is-off { background-color: #212529 !important; color: #ffffff !important; font-weight: bold; cursor: not-allowed; }
+.is-leave { background-color: #868686 !important; color: #ffffff !important; font-weight: bold; cursor: not-allowed; }
+
+/* Dragging items */
+.draggable-name { cursor: grab; transition: 0.2s; list-style: none; }
+.draggable-name:hover { background-color: #f8f9fa !important; border-color: #0d6efd !important; }
+.opacity-50 { opacity: 0.5; }
+
+/* Delete Button */
+.delete-btn-popup {
+    position: absolute; top: 0; right: 0; 
+    background-color: #dc3545 !important; color: white !important;
+    border: none; width: 20px; height: 20px; font-size: 14px;
+    display: none; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 1000; border-radius: 0 0 0 4px;
+    line-height: 1; padding: 0;
+}
+td:hover .delete-btn-popup { display: flex !important; }
+
+/* Sidebar Helpers */
+.draggable-name { cursor: grab; user-select: none; transition: 0.2s; }
+.draggable-name:active { cursor: grabbing; }
+.staff-pool { border: 2px dashed #ddd; border-radius: 10px; background: #fff; min-height: 80px; }
+
+.header-section { flex-shrink: 0; }
+
+/* ตั้งค่า Modal Image */
+.modal-body img {
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.holiday-column-active {
+    position: relative;
+}
+
+.holiday-column-active::after {
+    content: "";
+    position: absolute;
+    /* ขยับขึ้นไปครอบชื่อวัน (จ. อ. พ.) */
+    top: -40px; 
+    
+    
+    /* 🚩 ใช้ค่าจาก JS ถ้าไม่มีให้เป็น 100% */
+    width: var(--holiday-width, 100%);
+    left: var(--holiday-left, 0);
+    
+    /* ความสูงลากลงมาคลุมแถวพนักงาน */
+    height: 540%; 
+    
+    border: 3px solid #ff0000;
+    background-color: rgba(255, 0, 0, 0.027);
+    z-index: 99;
+    pointer-events: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* คลาสสำหรับควบคุมความนุ่มนวล */
+.fade-content {
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-out;
+    opacity: 0;
+    transform: translateY(10px); /* ให้เนื้อหาขยับขึ้นมานิดๆ ตอนปรากฏจะดูแพงขึ้น */
+}
+
+.fade-content.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ปรับ Header ให้ Fade แยกกันเล็กน้อย */
+#header-nav {
+    transition: opacity 0.3s ease;
+}
+
+/* คลาสสำหรับหน้าที่จะหายไป */
+.fade-out {
+    opacity: 0 !important;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* คลาสสำหรับหน้าที่จะปรากฏ */
+.fade-in-smooth {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.fade-in-smooth.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* คลาสพื้นฐานสำหรับหน้าที่จะทำ Fade */
+.page-container {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* สถานะตอนซ่อน */
+.hidden-fade {
+    display: none !important;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* สถานะตอนโชว์ */
+.show-fade {
+    display: flex !important; /* หรือ block ตามเหมาะสม */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* คอนเทนเนอร์หลักของเนื้อหา Tab */
+.tab-content {
+    position: relative;
+    min-height: 200px; /* กันหน้าจอกระตุกเวลาสลับ */
+}
+
+/* ปรับแต่งจังหวะการ Fade ของ Bootstrap .tab-pane */
+.tab-content > .tab-pane {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px); /* ให้เนื้อหาเลื่อนลงไปนิดๆ ตอนซ่อน */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* เมื่อ Tab ถูกเลือก (Active) */
+.tab-content > .tab-pane.active {
+    display: block !important;
+}
+
+/* เมื่อเริ่มแสดงผล (Show) */
+.tab-content > .tab-pane.show {
+    opacity: 1;
+    transform: translateY(0); /* เลื่อนกลับมาตำแหน่งปกติ */
+}
+
+/* คอนเทนเนอร์หลักของ Report */
+#report-table-display {
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px;
+    /* transition สำหรับ Fade ที่เราทำไว้ก่อนหน้านี้ */
+}
+
+/* จัดการตารางที่ถูกฉีดเข้ามาให้ดูพอดี */
+#report-table-display .table-responsive {
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* เพิ่มเงาจางๆ ให้ตารางดูเด่นขึ้น */
+}
+
+/* ปรับหัวข้อ กะ A / กะ B ให้ขนาดพอเหมาะ */
+#report-table-display h5 {
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* บังคับให้ตารางกว้างเต็มพื้นที่ของคอลัมน์ที่ย่อแล้ว */
+#report-table-display table {
+    width: 100% !important;
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 1400px) {
+    body {
+        /* ให้ body เลื่อนได้ปกติ แต่ต้องเผื่อพื้นที่ให้ header/footer ที่ถูกล็อกไว้ด้วย */
+        zoom: 0.7;
+        overflow-y: auto;
+        padding-top: 60px;    /* ปรับตามความสูงจริงของ header */
+        padding-bottom: 50px; /* ปรับตามความสูงจริงของ footer */
+        font-size: 1.2rem;
+    }
+
+    header {
+        position: fixed;      /* ล็อกตำแหน่ง */
+        top: 0;               /* แปะขอบบน */
+        left: 0;
+        width: 100%;          /* ยืดเต็มความกว้าง */
+        z-index: 1050;        /* ให้อยู่เลเยอร์บนสุด ทับตารางเวลาเลื่อน */
+        background-color: #fff; /* ต้องใส่สีพื้นหลังเพื่อไม่ให้เนื้อหาด้านล่างทะลุมาเห็น */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* เพิ่มเงาให้ดูมีมิติ */
+    }
+
+    footer {
+        position: fixed;      /* ล็อกตำแหน่ง */
+        bottom: 0;            /* แปะขอบล่าง */
+        left: 0;
+        width: 100%;
+        z-index: 1050;
+        background-color: #fff;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .col-side {
+        width:10%;
+    }
+
+    .tab-content {
+        width:101%;
+    }
+
+
+
+    #report-table-display {
+        width: 90% !important; 
+        margin: 0 auto;
+    }
+
+}
+
+/* สถานะเริ่มต้น: จางและเลื่อนลงเล็กน้อย */
+.fade-in-page {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* สถานะเมื่อโหลดเสร็จ: ปรากฏและเลื่อนขึ้นมาที่เดิม */
+.fade-in-page.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ส่วนเนื้อหาหลัก */
+#main-content {
+    opacity: 0; /* ซ่อนไว้รอ JS สั่งโชว์ */
+    will-change: opacity, transform;
+}
+
+/* Navbar และ Footer (ล็อกตำแหน่งไว้ ไม่ให้จางตามเนื้อหา) */
+header, footer {
+    width: 100%;
+    z-index: 1050;
+    background-color: white; /* ต้องมีสีทึบ */
+    opacity: 1 !important;   /* ห้ามจางเด็ดขาด */
+}
+
+/* 1. สไตล์หลักสำหรับทุกช่องที่อยู่ในกลุ่ม (บน-ล่าง ต้องมีทุกช่อง) */
+.holiday-box-member {
+    position: relative;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+/* 2. เส้นปิดด้านบนสุด (เฉพาะแถวแรกของ thead) */
+thead tr:first-child th.holiday-box-member {
+    border-top: 3.5px solid #ff0000 !important;
+}
+
+/* 3. เส้นปิดด้านล่างสุด (เฉพาะแถวสุดท้ายของ tbody) */
+tbody tr:last-child td.holiday-box-member {
+    border-bottom: 3.5px solid #ff0000 !important;
+}
+
+/* 4. เส้นปิด "ด้านซ้ายสุด" (เฉพาะคอลัมน์แรกของกลุ่ม) */
+.holiday-box-member.is-first {
+    border-left: 3.5px solid #ff0000 !important;
+}
+
+/* 5. เส้นปิด "ด้านขวาสุด" (เฉพาะคอลัมน์สุดท้ายของกลุ่ม) */
+.holiday-box-member.is-last {
+    border-right: 3.5px solid #ff0000 !important;
+}
+
+/* 6. แก้ไขปัญหาเส้นตารางเดิมขวางกั้น (Optional) */
+/* ช่วยให้เส้นแดงดูเป็นเส้นเดียว ไม่โดนเส้นตารางสีเทาตัด */
+table {
+    border-collapse: collapse !important;
+}

@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan OT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body>
+
+    <header id="header-nav" class="header-section shadow-sm">        
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2 px-4 shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold d-flex align-items-center" href="javascript:void(0)" onclick="location.reload()">
+                    <div class="rounded-3 p-1 me-2 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-calendar-check text-white fs-5"></i>
+                    </div>
+                    <span>Plan OT <small class="fw-light opacity-50 ms-1" style="font-size: 0.7rem;">v1.0</small></span>
+                </a>
+
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="#" onclick="report()" id="btn-report"> 
+                            <!--<a class="nav-link px-3" href="report.html">-->
+                                <i class="bi bi-file-earmark-bar-graph me-1"></i> Report
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-plus-circle me-1"></i> Management
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus me-2"></i>Add Staff</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-building-add me-2"></i>Add Building</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <div class="d-flex align-items-center">
+                        <div class="text-white-50 bg-secondary bg-opacity-10 px-3 py-1 rounded-pill border border-secondary border-opacity-25">
+                            <small id="date" class="font-monospace">
+                                <i class="bi bi-clock-fill me-2 text-primary"></i> --/--/--
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content" id="main-content">
+        <div class="col-side p-3">
+            <div class="mb-4">
+                <h6 class="fw-bold mb-3 text-center d-flex align-items-center justify-content-center">
+                    เลือกวันหยุด 
+                    <i class="bi bi-info-circle ms-2 text-primary" 
+                       style="cursor: pointer;" 
+                       data-bs-toggle="modal" 
+                       data-bs-target="#infoModal"></i>
+                </h6>
+                <select class="form-select form-select-sm shadow-sm" id="holiday-selector">
+                    <option selected disabled>-- เลือกวันหยุด --</option>
+                    <option value="jan01">1 ม.ค. - วันขึ้นปีใหม่</option>
+                    <option value="jan02">2 ม.ค. - วันหยุดพิเศษ</option>
+                    <option value="apr13">13 เม.ย. - วันสงกรานต์</option>
+                    <option value="apr14">14 เม.ย. - วันสงกรานต์</option>
+                    <option value="apr15">15 เม.ย. - วันสงกรานต์</option>
+                    <option value="may01">1 พ.ค. - วันแรงงาน</option>
+                    <option value="jun03">3 มิ.ย. - วันเฉลิมพระนางเจ้าฯ พระบรมราชินี</option>
+                    <option value="jul28">28 ก.ค. - วันเฉลิมพระชนมพรรษา (ร.10)</option>
+                    <option value="jul29">29 ก.ค. - วันอาสาฬหบูชา</option>
+                    <option value="aug12">12 ส.ค. - วันแม่แห่งชาติ</option>
+                    <option value="oct13">13 ต.ค. - วันนวมินทรมหาราช</option>
+                    <option value="oct23">23 ต.ค. - วันปิยมหาราช</option>
+                    <option value="dec07">7 ธ.ค. - ชดเชยวันพ่อแห่งชาติ</option>
+                    <option value="dec31">31 ธ.ค. - วันสิ้นปี</option>
+                </select>
+            </div>
+
+            <h6 class="fw-bold mb-3 text-center">รายชื่อพนักงาน</h6>
+            <div class="mb-4">
+                <span class="badge bg-primary w-100 mb-2 p-2">📅 วันธรรมดา</span>
+                <ul class="staff-pool" id="pool-weekday">
+                    <li class="p-2 mb-1 bg-white border rounded draggable-name shadow-sm" draggable="true" data-type="weekday">Surasri</li>
+                    <li class="p-2 mb-1 bg-white border rounded draggable-name shadow-sm" draggable="true" data-type="weekday">Adoon</li>
+                    <li class="p-2 mb-1 bg-white border rounded draggable-name shadow-sm" draggable="true" data-type="weekday">Todsapol</li>
+                    <li class="p-2 mb-1 bg-white border rounded draggable-name shadow-sm" draggable="true" data-type="weekday">Chaiwat</li>
+                    <li class="p-2 mb-1 bg-white border rounded draggable-name shadow-sm" draggable="true" data-type="weekday">Natthi</li>
+                    <li class="p-2 mb-1 bg-white border rounded draggable-name shadow-sm" draggable="true" data-type="weekday">Siwakorn</li>
+                    <li class="p-2 mb-1 bg-white border rounded draggable-name shadow-sm" draggable="true" data-type="weekday">Pichet</li>
+                </ul>
+            </div>
+            <div class="mb-4">
+                <span class="badge bg-danger w-100 mb-2 p-2">☀️ วันอาทิตย์</span>
+                <ul class="staff-pool" id="pool-sunday"></ul>
+            </div>
+            <div class="mb-2">
+                <div class="p-2 bg-dark text-white rounded draggable-name small" draggable="true" data-name="หยุด" style="transition: none !important; background: #000 !important; cursor: grab; text-align: center;">
+                    <i class="bi bi-x-circle me-1"></i> หยุด
+                </div>
+            </div>
+            <div class="mb-2">
+                <div class="p-2 text-white rounded draggable-name small" draggable="true" data-name="ลา" style="transition: none !important; background:#868686 !important; cursor: grab; text-align: center;">
+                    <i class="bi bi-x-circle me-1"></i> ลา
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="col-center p-3">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center" style="height: 20px;margin-top: 10px;margin-left: 3px;">
+                    <div>
+                        <i class="bi bi-calendar-check-fill text-primary me-2"></i>
+                        <strong> DATE :</strong>
+                        <span id="date" class="text-muted me-2"></span> <span class="holiday badge bg-danger"></span>
+                    </div>
+
+                    <div>
+                        <button type="button" class="btn btn-success d-flex align-items-center" onclick="savePlan()" id="saveplanot">
+                            <i class="bi bi-cloud-upload-fill me-2"></i> ยืนยันแผนการทำงาน
+                        </button>
+                    </div>
+                </div>
+
+                <br>
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills" role="tablist" style="margin-top: -10px;">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="pill" href="#report-shift-a-display">กะ A</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="pill" href="#report-shift-b-display">กะ B</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="report-shift-a-display" class="tab-pane fade show active"><br>
+                        <div class="row">
+                            <div class="col-md-6 mb-2 plan-table has-sunday-a" data-group="1" data-shift="A">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ A มีวันอาทิตย์ ) แผน OT เข้า 1 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 plan-table no-sunday-a" data-group="2" data-shift="A">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ A ไม่มีวันอาทิตย์ ) แผน OT เข้า 1 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2 plan-table has-sunday-a" data-group="3" data-shift="A">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ A มีวันอาทิตย์ ) แผน OT เข้า 2 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 plan-table no-sunday-a" data-group="4" data-shift="A">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ A ไม่มีวันอาทิตย์ ) แผน OT เข้า 2 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2 plan-table has-sunday-a" data-group="5" data-shift="A">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ A มีวันอาทิตย์ ) แผน OT เข้า 3 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 plan-table no-sunday-a" data-group="6" data-shift="A">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ A ไม่มีวันอาทิตย์ ) แผน OT เข้า 3 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="report-shift-b-display" class="tab-pane fade"><br>
+                        <div class="row">
+                            <div class="col-md-6 mb-2 plan-table has-sunday-b" data-group="1" data-shift="B">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ B มีวันอาทิตย์ ) แผน OT เข้า 1 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 plan-table no-sunday-b" data-group="2" data-shift="B">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ B ไม่มีวันอาทิตย์ ) แผน OT เข้า 1 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2 plan-table has-sunday-b" data-group="3" data-shift="B">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ B มีวันอาทิตย์ ) แผน OT เข้า 2 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 plan-table no-sunday-b" data-group="4" data-shift="B">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ B ไม่มีวันอาทิตย์ ) แผน OT เข้า 2 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2 plan-table has-sunday-b" data-group="5" data-shift="B">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ B มีวันอาทิตย์ ) แผน OT เข้า 3 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 plan-table no-sunday-b" data-group="6" data-shift="B">
+                                <div class="rounded-table-container">
+                                    <div class="p-2 bg-dark text-white fw-bold">( กะ B ไม่มีวันอาทิตย์ ) แผน OT เข้า 3 คน </div>
+                                    <table class="table table-bordered text-center mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle" style="width: 120px;">Building<br>Staff</th>
+                                                <th>จ.</th>
+                                                <th>อ.</th>
+                                                <th>พ.</th>
+                                                <th>พฤ.</th>
+                                                <th>ศ.</th>
+                                                <th>ส.</th>
+                                                <th>อา.</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>ทำงาน</th>
+                                                <th rowspan="2" class="align-middle">เวลา<br>OT</th>
+                                                <th rowspan="2" class="align-middle">รวม</th>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td class="sat-header">18</td>
+                                                <td class="sun-header">19</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">BA</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B9</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                
+            </div>
+        </div>
+
+        
+    </main>
+
+    <section id="report-section" class="d-none flex-column fade-section">
+        <div class="container mt-2">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-5">
+                            <label class="form-label small fw-bold">เลือกวันหยุด</label>
+                            <div id="holiday-selector-container"></div>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label small fw-bold">ประเภทสัปดาห์</label>
+                            <select id="reportSundaySelect" class="form-select form-select-sm">
+                                <option value="has-sunday">✅ มีวันอาทิตย์</option>
+                                <option value="no-sunday">🚫 ไม่มีวันอาทิตย์</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary btn-sm w-100" onclick="submitReport()" id="submitReport">
+                                <i class="bi bi-search me-1"></i> Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="report-table-display" class="p-2 mt-2 d-none" style="min-height: 50px; background: #eee;">
+            <p class="text-muted text-center py-5 rounded bg-dark">กรุณาเลือกเงื่อนไขและกด Submit</p>
+        </div>
+
+    </section>
+
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-body text-center" style="height: 50%;">
+            <img src="img/Holiday.jpg" class="img-fluid rounded shadow-sm" alt="Holiday Schedule">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer-section mt-auto bg-light border-top py-2 px-4 d-flex justify-content-between align-items-center" id="footer">
+        <div class="text-muted small">
+            <span class="me-3"><strong>Status:</strong> <span class="text-success"><i class="bi bi-record-fill"></i> ทำงาน 12 ชม.</span> | <span class="text-white" style="text-shadow: 1px 1px 2px #000;"><i class="bi bi-record-fill"></i> </span>ทำงาน 8 ชม. | <span style="color:#868686;"><i class="bi bi-record-fill"></i> ลา </span> | <span class="text-dark"><i class="bi bi-record-fill"></i> หยุด</span></span>
+        </div>
+        <div class="text-muted small">
+            © 2026 OT Management System | Plan OT v1.0
+        </div>
+    </footer>
+
+</body>
+<script src="fn.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="script.js"></script>
+<script src="cal.js"></script>
+
+
+</html>
