@@ -41,7 +41,13 @@
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-building-add me-2"></i>Add Building</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item d-flex align-middle ms-3">
+                            <div class="navbar-text d-flex align-items-center" style="font-size: 0.85rem;">
+                                <span class="holiday badge bg-danger" style="font-weight: 500;"></span>
+                            </div>
+                        </li>
                     </ul>
+                    
                     
                     <div class="d-flex align-items-center">
                         <div class="text-white-50 bg-secondary bg-opacity-10 px-3 py-1 rounded-pill border border-secondary border-opacity-25">
@@ -114,33 +120,30 @@
         </div>
         
 
-        <div class="col-center p-3">
+        <div class="col-center p-3" style="zoom: 95%;">
             <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center" style="height: 20px;margin-top: 10px;margin-left: 3px;">
-                    <div>
-                        <i class="bi bi-calendar-check-fill text-primary me-2"></i>
-                        <strong> DATE :</strong>
-                        <span id="date" class="text-muted me-2"></span> <span class="holiday badge bg-danger"></span>
-                    </div>
+                <div class="d-flex justify-content-between align-items-center" style="margin-bottom: -30px;">
+
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="pill" href="#report-shift-a-display">กะ A</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="pill" href="#report-shift-b-display">กะ B</a>
+                        </li>
+                    </ul>
 
                     <div>
-                        <button type="button" class="btn btn-success d-flex align-items-center" onclick="savePlan()" id="saveplanot">
-                            <i class="bi bi-cloud-upload-fill me-2"></i> ยืนยันแผนการทำงาน
+                        <button type="button" class="btn btn-success" onclick="savePlan()" id="saveplanot">
+                            <i class="bi bi-cloud-upload-fill"></i> ยืนยันแผนการทำงาน
                         </button>
                     </div>
                 </div>
 
                 <br>
                 <!-- Nav tabs -->
-                <ul class="nav nav-pills" role="tablist" style="margin-top: -10px;">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="pill" href="#report-shift-a-display">กะ A</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="pill" href="#report-shift-b-display">กะ B</a>
-                    </li>
-                </ul>
+                
 
                 <!-- Tab panes -->
                 <div class="tab-content">
@@ -203,6 +206,19 @@
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle"></td>
                                                 <td class="drop-zone"></td>
                                                 <td class="drop-zone"></td>
                                                 <td class="drop-zone"></td>
@@ -287,6 +303,19 @@
                                                 <td class="total-ot bg-light">0</td>
                                                 <td class="total-grand bg-light">0</td>
                                             </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -360,6 +389,20 @@
                                                 <td class="total-ot bg-light">0</td>
                                                 <td class="total-grand bg-light">0</td>
                                             </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="drop-zone sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -422,6 +465,19 @@
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle"></td>
                                                 <td class="drop-zone"></td>
                                                 <td class="drop-zone"></td>
                                                 <td class="drop-zone"></td>
@@ -506,6 +562,19 @@
                                                 <td class="total-ot bg-light">0</td>
                                                 <td class="total-grand bg-light">0</td>
                                             </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -568,6 +637,19 @@
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold bg-light align-middle">B7</td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone"></td>
+                                                <td class="drop-zone sat-cell"></td>
+                                                <td class="no-sun-cell"></td>
+                                                <td class="total-normal bg-light">0</td>
+                                                <td class="total-ot bg-light">0</td>
+                                                <td class="total-grand bg-light">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold bg-light align-middle"></td>
                                                 <td class="drop-zone"></td>
                                                 <td class="drop-zone"></td>
                                                 <td class="drop-zone"></td>

@@ -394,20 +394,20 @@ function enforceLockedSundays() {
 function applyHolidayStyle(cell, val) {
 
     if (val.startsWith("jan01") || val.startsWith("jan02")) {
-        cell.style.setProperty('--holiday-width', '310%');
-        cell.style.setProperty('--holiday-left', val.startsWith("jan01") ? '-70px' : '-137px');
+        cell.style.setProperty('--holiday-width', val.startsWith("jan01") ? '307%' : '308%');
+        cell.style.setProperty('--holiday-left', val.startsWith("jan01") ? '-72px' : '-144px');
     } else if (val.startsWith("apr15")) {
         cell.style.setProperty('--holiday-width', '309%');
-        cell.style.setProperty('--holiday-left', '-137px');
+        cell.style.setProperty('--holiday-left', '-145px');
     } else if (val.startsWith("apr14")) {
-        cell.style.setProperty('--holiday-width', '310%');
-        cell.style.setProperty('--holiday-left', '-70px');
+        cell.style.setProperty('--holiday-width', '309%');
+        cell.style.setProperty('--holiday-left', '-73px');
     } else if (val.startsWith("apr13")) {
         cell.style.setProperty('--holiday-width', '310%');
-        cell.style.setProperty('--holiday-left', '-3px');
+        cell.style.setProperty('--holiday-left', '-2px');
     } else if (val.startsWith("jul28") || val.startsWith("jul29") || val.startsWith("dec31")) {
         cell.style.setProperty('--holiday-width', '205%');
-        cell.style.setProperty('--holiday-left', val.startsWith("jul29") ? '-67px' : '0');
+        cell.style.setProperty('--holiday-left', val.startsWith("jul29") ? '-72px' : '0');
     } else {
         cell.style.setProperty('--holiday-width', '100%');
         cell.style.setProperty('--holiday-left', '0');
